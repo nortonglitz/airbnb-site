@@ -17,10 +17,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
-        <nav className="text-xl">
-          Nav
-
-        </nav>
         {children}
       </body>
     </html>
