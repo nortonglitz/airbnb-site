@@ -1,9 +1,12 @@
 import type { Metadata } from 'next'
-import { Nunito } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/app/components/navbar/Navbar'
+import RegisterModal from '@/app/components/modals/RegisterModal'
+import ClientProvider from '@/app/providers/ClientProvider'
+import { Toaster } from 'react-hot-toast'
 
-const nunito = Nunito({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Airbnb',
@@ -17,7 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={nunito.className}>
+      <body className={inter.className}>
+        <ClientProvider>
+          <Toaster />
+        </ClientProvider>
+        <RegisterModal />
         <Navbar />
         {children}
       </body>
