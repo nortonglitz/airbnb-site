@@ -1,3 +1,5 @@
+'use client'
+
 import Container from '@/app/components/Container'
 import CategoryBox from '@/app/components/CategoryBox'
 import { TbBeach, TbMountain, TbPool } from 'react-icons/tb'
