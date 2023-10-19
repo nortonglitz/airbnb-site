@@ -38,7 +38,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
     return (
         <div className="relative">
-            <div className="flex flex-row items-center gap-3">
+            <div className="flex flex-row items-center gap-3 select-none">
                 <div
                     onClick={onRent}
                     className="
@@ -95,7 +95,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                         text-sm
                     "
                 >
-                    <div className="flex flex-col cursor-pointer">
+                    <div className="flex flex-col cursor-pointer select-none">
                         {currentUser ? (
                             <>
                                 <MenuItem

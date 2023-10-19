@@ -15,6 +15,7 @@ const Search = () => {
             hover:shadow-md
             transition
             cursor-pointer
+            select-none
             "
         >
             <div

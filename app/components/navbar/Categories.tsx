@@ -110,6 +110,7 @@ const Categories = () => {
                     items-center
                     justify-between
                     overflow-x-auto
+                    select-none
                 "
             >
                 {categories.map(item => (
