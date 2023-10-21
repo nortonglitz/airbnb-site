@@ -2,6 +2,7 @@
 
 import { User } from "@prisma/client"
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"
+import PuffLoader from 'react-spinners/PuffLoader'
 
 import useFavorite from '@/app/hooks/useFavorite'
 
@@ -15,31 +16,43 @@ const HeartButton: React.FC<HeartButtonProps> = ({
     currentUser
 }) => {
 
-    const { hasFavorited, toggleFavorite } = useFavorite({ listingId, currentUser })
+    const { favorited, toggleFavorite, isFavLoading } = useFavorite({ listingId, currentUser })
 
     return (
         <div
-            onClick={toggleFavorite}
+            onClick={isFavLoading ? undefined : toggleFavorite}
             className="
                 relative
-                hover:opacity-80
                 transition
                 cursor-pointer
             "
         >
-            <AiOutlineHeart
-                size={28}
-                className="
-                    fill-white
-                    absolute
-                    -top-[2px]
-                    -right-[2px]
-                "
-            />
-            <AiFillHeart
-                size={24}
-                className={hasFavorited ? 'fill-rose-500' : 'fill-neutral-500/70'}
-            />
+            {isFavLoading ? (
+                <PuffLoader
+                    loading={true}
+                    aria-label="Loading spinner"
+                    color="#fda4af"
+                    size={28}
+                />
+            ) : (
+                <>
+                    <AiOutlineHeart
+                        size={28}
+                        className="
+                            opacity-80
+                            hover:opacity-100
+                            fill-white
+                            absolute
+                            -top-[2px]
+                            -right-[2px]
+                        "
+                    />
+                    <AiFillHeart
+                        size={24}
+                        className={favorited ? 'fill-rose-500' : 'fill-neutral-500/20'}
+                    />
+                </>
+            )}
         </div>
     )
 }

@@ -1,10 +1,8 @@
 import axios from 'axios'
 
 import { useRouter } from 'next/navigation'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useState } from 'react'
 import useLoginModal from '@/app/hooks/useLoginModal'
-
-import { toast } from 'react-hot-toast'
 
 import { User } from '@prisma/client'
 
@@ -19,12 +17,8 @@ const useFavorite = ({
 }: IUseFavorite) => {
     const router = useRouter()
     const loginModal = useLoginModal()
-
-    const hasFavorited = useMemo(() => {
-        const list = currentUser?.favoriteIds || []
-
-        return list.includes(listingId)
-    }, [currentUser, listingId])
+    const [isFavLoading, setIsFavLoading] = useState(false)
+    const [favorited, setFavorited] = useState(currentUser?.favoriteIds.includes(listingId) || false)
 
     const toggleFavorite = useCallback(async (
         e: React.MouseEvent<HTMLDivElement>
@@ -35,31 +29,26 @@ const useFavorite = ({
             return loginModal.onOpen()
         }
 
+        setIsFavLoading(() => true)
+
         try {
-            if (hasFavorited) {
-                const delReq = axios.delete(`/api/favorites/${listingId}`)
-                await toast.promise(delReq, {
-                    loading: 'Removing from your favorite list...',
-                    success: 'Removed!',
-                    error: 'Something went wrong'
-                })
+            if (favorited) {
+                await axios.delete(`/api/favorites/${listingId}`)
+                setFavorited(() => false)
             } else {
-                const addReq = axios.post(`/api/favorites/${listingId}`)
-                await toast.promise(addReq, {
-                    loading: 'Adding to your favorite list...',
-                    success: 'Favorited!',
-                    error: 'Something went wrong'
-                })
+                await axios.post(`/api/favorites/${listingId}`)
+                setFavorited(() => true)
             }
 
-            router.refresh()
         } catch (err) {
         }
-    }, [currentUser, hasFavorited, listingId, loginModal, router])
+        setIsFavLoading(false)
+    }, [currentUser, favorited, listingId, loginModal])
 
     return {
-        hasFavorited,
-        toggleFavorite
+        favorited,
+        toggleFavorite,
+        isFavLoading
     }
 }
 
