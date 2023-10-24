@@ -29,6 +29,7 @@ const TripsClient: React.FC<TripsClientProps> = ({
     const [deletingId, setDeletingId] = useState('')
 
     const onCancel = useCallback(async (id: string) => {
+        console.log('passei')
         setDeletingId(id)
 
         await axios.delete(`/api/reservations/${id}`)
