@@ -84,7 +84,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
                         fill
                         alt="Listing"
                         src={data.imageSrc}
-                        sizes="10vw"
+                        sizes="25vw"
                         className="
                             object-cover
                             h-full

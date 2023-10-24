@@ -1,8 +1,7 @@
-'use client'
 
-import { useRouter } from "next/navigation"
 import Heading from '@/app/components/Heading'
 import Button from '@/app/components/Button'
+import Link from 'next/link'
 
 interface EmptyStateProps {
     title?: string
@@ -15,8 +14,6 @@ const EmptyState: React.FC<EmptyStateProps> = ({
     subtitle = "Try chaning or removing some of your filters",
     showReset
 }) => {
-
-    const router = useRouter()
 
     return (
         <div
@@ -36,11 +33,23 @@ const EmptyState: React.FC<EmptyStateProps> = ({
             />
             <div className="w-48 mt-4">
                 {showReset && (
-                    <Button
-                        outline
-                        label="Remove all filters"
-                        onClick={() => router.push('/')}
-                    />
+                    <Link
+                        href="/"
+                        className="
+                            flex
+                            justify-center
+                            border-2
+                            border-black
+                            py-3
+                            rounded-lg
+                            text-md
+                            font-semibold
+                            transition
+                            hover:opacity-80
+                        "
+                    >
+                        Home
+                    </Link>
                 )}
             </div>
         </div>

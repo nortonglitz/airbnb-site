@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic"
 import axios from "axios"
-import { categories } from "@/app/components/navbar/Categories"
+import { categories } from "@/app/libs/categories"
 import toast from 'react-hot-toast'
 
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form"
