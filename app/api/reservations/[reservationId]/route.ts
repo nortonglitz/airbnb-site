@@ -4,7 +4,9 @@ import getCurrentUser from "@/app/actions/getCurrentUser"
 import prisma from '@/app/libs/prismadb'
 
 interface IParams {
-    reservationId?: string
+    params: {
+        reservationId?: string
+    }
 }
 
 export async function DELETE(
@@ -17,7 +19,7 @@ export async function DELETE(
         return NextResponse.error()
     }
 
-    const { reservationId } = params
+    const { params: { reservationId } } = params
 
     if (!reservationId || typeof reservationId !== 'string') {
         throw new Error('Invalid ID')

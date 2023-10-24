@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useMemo } from "react"
+import { useMemo } from "react"
 import { useRouter } from "next/navigation"
 import useCountries from "@/app/hooks/useCountries"
 
@@ -37,15 +37,13 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
     const location = getCountryByValue(data.locationValue)
 
-    const handleCancel = useCallback(() => {
-        (e: React.MouseEvent<HTMLButtonElement>) => {
-            e.stopPropagation()
+    const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
 
-            if (disabled) return
+        if (disabled) return
 
-            onAction?.(actionId)
-        }
-    }, [onAction, actionId, disabled])
+        onAction?.(actionId)
+    }
 
     const price = useMemo(() => {
         if (reservation) {
