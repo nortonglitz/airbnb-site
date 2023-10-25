@@ -10,6 +10,7 @@ import { User } from '@prisma/client'
 import { signOut } from 'next-auth/react'
 import useRentModal from '@/app/hooks/useRentModal'
 import { useRouter } from 'next/navigation'
+import ClickOutsideListener from '@/app/components/helpers/ClickOutsideListener'
 
 interface UserMenuProps {
     currentUser?: User | null
@@ -37,6 +38,11 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
         rentModal.onOpen()
     }, [currentUser, loginModal, rentModal])
+
+    const handleClick = (url: string) => {
+        toggleOpen()
+        return router.push(url)
+    }
 
     return (
         <div className="relative">
@@ -98,46 +104,48 @@ const UserMenu: React.FC<UserMenuProps> = ({
                     "
                 >
                     <div className="flex flex-col cursor-pointer select-none">
-                        {currentUser ? (
-                            <>
-                                <MenuItem
-                                    onClick={() => router.push('/trips')}
-                                    label="My trips"
-                                />
-                                <MenuItem
-                                    onClick={() => router.push('/favorites')}
-                                    label="My favorites"
-                                />
-                                <MenuItem
-                                    onClick={() => router.push('/reservations')}
-                                    label="My reservations"
-                                />
-                                <MenuItem
-                                    onClick={() => router.push('/properties')}
-                                    label="My properties"
-                                />
-                                <MenuItem
-                                    onClick={rentModal.onOpen}
-                                    label="Airbnb my home"
-                                />
-                                <hr />
-                                <MenuItem
-                                    onClick={() => signOut()}
-                                    label="Logout"
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <MenuItem
-                                    onClick={loginModal.onOpen}
-                                    label="Login"
-                                />
-                                <MenuItem
-                                    onClick={registerModal.onOpen}
-                                    label="Sign Up"
-                                />
-                            </>
-                        )}
+                        <ClickOutsideListener onClickOutside={toggleOpen}>
+                            {currentUser ? (
+                                <>
+                                    <MenuItem
+                                        onClick={() => handleClick('/trips')}
+                                        label="My trips"
+                                    />
+                                    <MenuItem
+                                        onClick={() => handleClick('/favorites')}
+                                        label="My favorites"
+                                    />
+                                    <MenuItem
+                                        onClick={() => handleClick('/reservations')}
+                                        label="My reservations"
+                                    />
+                                    <MenuItem
+                                        onClick={() => handleClick('/properties')}
+                                        label="My properties"
+                                    />
+                                    <MenuItem
+                                        onClick={rentModal.onOpen}
+                                        label="Airbnb my home"
+                                    />
+                                    <hr />
+                                    <MenuItem
+                                        onClick={() => signOut()}
+                                        label="Logout"
+                                    />
+                                </>
+                            ) : (
+                                <>
+                                    <MenuItem
+                                        onClick={loginModal.onOpen}
+                                        label="Login"
+                                    />
+                                    <MenuItem
+                                        onClick={registerModal.onOpen}
+                                        label="Sign Up"
+                                    />
+                                </>
+                            )}
+                        </ClickOutsideListener>
                     </div>
                 </div>
             }
