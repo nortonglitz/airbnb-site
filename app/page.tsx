@@ -1,13 +1,19 @@
 import Container from '@/app/components/Container'
 import EmptyState from '@/app/components/EmptyState'
-import getListings from '@/app/actions/getListings'
+import getListings, { IListingParams } from '@/app/actions/getListings'
 import ListingCard from '@/app/components/listings/ListingCard'
 import getCurrentUser from '@/app/actions/getCurrentUser'
 
-export default async function Home() {
+interface HomeProps {
+  searchParams: IListingParams
+}
+
+const Home: React.FC<HomeProps> = async ({
+  searchParams
+}) => {
 
   const currentUser = await getCurrentUser()
-  const listings = await getListings()
+  const listings = await getListings(searchParams)
 
   if (listings.length === 0) {
     return (
@@ -40,3 +46,5 @@ export default async function Home() {
     </Container>
   )
 }
+
+export default Home
