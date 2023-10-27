@@ -1,3 +1,5 @@
+'use client'
+
 import { Listing, User } from "@prisma/client"
 
 import Heading from "@/app/components/Heading"
