@@ -1,11 +1,54 @@
 'use client'
 
 import useSearchModal from '@/app/hooks/useSearchModal'
+import { useSearchParams } from 'next/navigation'
 import { BiSearch } from 'react-icons/bi'
+import useCountries from '@/app/hooks/useCountries'
+import { differenceInCalendarDays } from 'date-fns'
 
 const Search = () => {
 
     const searchModal = useSearchModal()
+    const params = useSearchParams()
+    const { getCountryByValue } = useCountries()
+
+    const locationValue = params?.get('locationValue')
+    const startDate = params?.get('startDate')
+    const endDate = params?.get('endDate')
+    const guestCount = params?.get('guestCount')
+
+    const locationLabgel = () => {
+        if (locationValue) {
+            return getCountryByValue(locationValue as string)?.label
+        }
+
+        return 'Anywhere'
+    }
+
+    const durationLabel = () => {
+        if (startDate && endDate) {
+            const start = new Date(startDate as string)
+            const end = new Date(endDate as string)
+
+            let diff = differenceInCalendarDays(end, start)
+
+            if (diff === 0) {
+                diff = 1
+            }
+
+            return `${diff} days`
+        }
+
+        return 'Any week'
+    }
+
+    const guestLabel = () => {
+        if (guestCount) {
+            return `${guestCount} guests`
+        }
+
+        return 'Guests'
+    }
 
     return (
         <div
@@ -38,7 +81,7 @@ const Search = () => {
                         px-6
                     "
                 >
-                    Anywhere
+                    {locationLabgel()}
                 </div>
                 <div
                     className="
@@ -52,7 +95,7 @@ const Search = () => {
                         text-center
                     "
                 >
-                    Any week
+                    {durationLabel()}
                 </div>
                 <div
                     className="
@@ -66,7 +109,7 @@ const Search = () => {
                         gap-3
                     "
                 >
-                    <div className="hidden sm:block">Add Guests</div>
+                    <div className="hidden sm:block">{guestLabel()}</div>
                     <div
                         className="
                             p-2
