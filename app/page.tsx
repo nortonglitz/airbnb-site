@@ -1,34 +1,19 @@
-'use client'
-
 import Container from '@/app/components/Container'
 import EmptyState from '@/app/components/EmptyState'
 import getListings, { IListingParams } from '@/app/actions/getListings'
 import ListingCard from '@/app/components/listings/ListingCard'
 import getCurrentUser from '@/app/actions/getCurrentUser'
-import { useEffect, useState } from 'react'
-import { User } from '@prisma/client'
 
 interface HomeProps {
   searchParams: IListingParams
 }
 
-const Home: React.FC<HomeProps> = ({
+const Home: React.FC<HomeProps> = async ({
   searchParams
 }) => {
 
-  const [listings, setListings] = useState<IListingParams[]>([])
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
-
-  useEffect(() => {
-    const updateData = async () => {
-      setListings(await getListings(searchParams))
-      setCurrentUser(await getCurrentUser())
-    }
-
-    updateData()
-
-  }, [searchParams])
-
+  const listings = await getListings(searchParams)
+  const currentUser = await getCurrentUser()
 
   if (listings.length === 0) {
     return (
